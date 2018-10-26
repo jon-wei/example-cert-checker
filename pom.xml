@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2017 Imply Data, Inc. All rights reserved.
+  ~
+  ~ This software is the confidential and proprietary information
+  ~ of Imply Data, Inc. You shall not disclose such Confidential
+  ~ Information and shall use it only in accordance with the terms
+  ~ of the license agreement you entered into with Imply.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.imply</groupId>
+  <artifactId>example-cert-checker</artifactId>
+  <version>0.12.3.0-SNAPSHOT</version>
+  <name>example-cert-checker</name>
+  <url>imply.io</url>
+
+  <scm>
+    <connection>scm:git:https://github.com/implydata/clarity-emitter.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/implydata/clarity-emitter.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <organization>
+    <name>Imply Data</name>
+    <url>imply.io</url>
+  </organization>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <druid.version>0.12.3-iap9-SNAPSHOT</druid.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.druid</groupId>
+      <artifactId>java-util</artifactId>
+      <version>${druid.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.druid</groupId>
+      <artifactId>druid-api</artifactId>
+      <version>${druid.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.druid</groupId>
+      <artifactId>druid-common</artifactId>
+      <version>${druid.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.druid</groupId>
+      <artifactId>druid-server</artifactId>
+      <version>${druid.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- Tests -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <compilerArgument>-Xlint:unchecked</compilerArgument>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.19.1</version>
+        <configuration>
+          <argLine>-Duser.timezone=UTC</argLine>
+          <redirectTestOutputToFile>true</redirectTestOutputToFile>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.5.5</version>
+        <executions>
+          <execution>
+            <id>distro-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <finalName>${project.artifactId}-${project.version}</finalName>
+              <tarLongFileMode>posix</tarLongFileMode>
+              <descriptors>
+                <descriptor>src/assembly/assembly.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.scm</groupId>
+            <artifactId>maven-scm-provider-gitexe</artifactId>
+            <version>1.9.5</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.0.2</version>
+        <configuration>
+          <archive>
+            <addMavenDescriptor>false</addMavenDescriptor>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
